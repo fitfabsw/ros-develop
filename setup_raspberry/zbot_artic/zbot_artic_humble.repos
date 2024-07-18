@@ -21,7 +21,7 @@ repositories:
     version: dev
   rosboard:
     type: git
-    url: https://github.com/jasonke1025/rosboard.git
+    url: https://github.com/fitfabsw/rosboard.git
     version: fitrobot
   ros2_v4l2_camera:
     type: git

@@ -33,5 +33,5 @@ repositories:
     version: fitrobot
   rosboard:
     type: git
-    url: https://github.com/jasonke1025/rosboard.git
+    url: https://github.com/fitfabsw/rosboard.git
     version: fitrobot
