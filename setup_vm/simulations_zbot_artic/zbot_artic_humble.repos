@@ -7,3 +7,11 @@ repositories:
     type: git
     url: https://github.com/fitfabsw/gazebo_ros2_control.git
     version: humble
+  fitrobot_interfaces:
+    type: git
+    url: https://github.com/fitfabsw/fitrobot_interfaces
+    version: main
+  fitrobot:
+    type: git
+    url: https://github.com/fitfabsw/fitrobot
+    version: dev

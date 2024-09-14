@@ -1,0 +1,3 @@
+2024/9/15 00:20
+refactor: add colcon_build.sh to ease the separate build process 
+ - add setup_examples.sh which is similar to setup_simulations.sh
