@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 # galactic: https://docs.ros.org/en/galactic/Installation/Ubuntu-Install-Debians.html
 # foxy: https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html

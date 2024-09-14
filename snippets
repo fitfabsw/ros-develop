@@ -1,0 +1,41 @@
+# simulations
+  - lino2
+    - single
+    ros2 launch linorobot2_gazebo gazebo.launch.py
+    - nav w/o keepout zone
+        ros2 launch linorobot2_navigation navigation.launch.py sim:=true rviz:=true
+    - nav w/ keepout zone
+        ros2 launch linorobot2_navigation navigation_keepout.launch.py sim:=true rviz:=true
+
+    - multi
+    ros2 launch linorobot2_gazebo gazebo_multi_robots.launch.py
+    ros2 launch articubot_one map_server.launch.py sim:=true
+    - nav w/o keepout zone
+        ros2 launch linorobot2_navigation navigation_multi.launch.py sim:=true rviz:=true use_namespace:=true namespace:=/robot1
+    - nav w/ keepout zone
+        ros2 launch linorobot2_navigation navigation_keepout_multi.launch.py sim:=true rviz:=true use_namespace:=true namespace:=/robot1
+
+  - artic
+    - single
+    ros2 launch articubot_one launch_sim.launch.py
+    - nav w/o keepout zone
+        ros2 launch articubot_one navigation.launch.py sim:=true rviz:=true
+    - nav w/ keepout zone
+        ros2 launch articubot_one navigation_keepout.launch.py sim:=true rviz:=true
+
+    - multi
+    ros2 launch articubot_one launch_multi_robots_sim.launch.py
+    ros2 launch articubot_one map_server.launch.py sim:=true
+    - nav w/o keepout zone
+        ros2 launch articubot_one navigation_multi.launch.py sim:=true rviz:=true use_namespace:=true namespace:=/robot1
+
+    - nav w/ keepout zone
+        ros2 launch articubot_one navigation_keepout_multi.launch.py sim:=true rviz:=true use_namespace:=true namespace:=/robot1
+
+
+  - lino2 + artic
+    ros2 launch fitrobot gazebo_artic_lino2.launch.py
+    ros2 launch articubot_one map_server.launch.py sim:=true
+    - nav w/o keepout zone
+        ros2 launch articubot_one navigation_multi.launch.py sim:=true rviz:=true use_namespace:=true namespace:=/artic
+        ros2 launch linorobot2_navigation navigation_multi.launch.py sim:=true rviz:=true use_namespace:=true namespace:=/lino2

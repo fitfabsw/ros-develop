@@ -1,91 +1,101 @@
-#!/bin/bash
+#!/usr/bin/env bash
+current_script="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+# shellcheck source=argparse.sh
+source "$(readlink -f "$current_script/argparse.sh")"
 
-function print_usage {
-  echo "Usage: $0 [OPTIONS]"
-  echo ""
-  echo "OPTIONS:"
-  echo "  -u, --UBUNTU_CODENAME  the codename of Ubuntu LTS (focal|jammy) (default: focal)"
-  echo "  -r, --ROS_DISTRO        the ROS distribution to install (noetic|galactic|foxy|humble) (default: galactic)"
-  echo "  -i, --ROS_INSTALL_TYPE the type of ROS installation (desktop|ros-base) (default: desktop)"
-  echo "  -w, --WORKSPACE the workspace to install ROS2 (default: ros2_ws)"
-  echo "  -a, --APPEND_SOURCE_SCRIPT_TO_BASHRC"
-  echo "                         whether to append the setup script to ~/.bashrc (default: false)"
-  echo "  -h, --help             print this help message and exit"
-}
+# 選項描述
+declare -A arg_desc=(
+  # ["-u,--ubuntu-codename"]="Ubuntu codename (default: focal)"
+  # ["-r,--rosdistro"]="ROS distribution (default: noetic)"
+  ["-w,--workspace"]="Workspace name (default: my_ws)"
+  ["-t,--token"]="github token"
+  ["-i,--ros_install_type"]="the type of ROS installation (desktop|ros-base) (default: desktop)"
+  ["-v,--verbose"]="verbose (default: false)"
+  ["-o,--install_ros2"]="install ros2 dev environment (default: false)"
+  ["-g,--download_gz_models"]="download gazebo models (default: false)"
+  ["-m,--enable_mppi_fix"]="enable mppi fix (default: false)"
+  ["-r,--enable_rmf"]="enable rmf environment (default: false)"
+  ["-d,--enable_autodock"]="enable auto-dock environment (default: false)"
+  ["-f,--force"]="delete workspace repositories (default: false)"
+  ["-h,--help"]="help"
+)
 
-function parse_args {
-  # 将命令行参数转换为短选项和长选项
-  OPTIONS=u:r:i:w:ah
-  LONGOPTIONS=UBUNTU_CODENAME:,ROS_DISTRO:,ROS_INSTALL_TYPE:,WORKSPACE:,APPEND_SOURCE_SCRIPT_TO_BASHRC,help
+# 用於存儲解析後的參數
+declare -A parsed_args
 
-  # 解析命令行参数
-  PARSED=$(getopt --options=$OPTIONS --longoptions=$LONGOPTIONS --name "$0" -- "$@")
+# 解析參數
+parse_args "$@"
 
-  if [[ $? -ne 0 ]]; then
-    # 解析失败，输出错误信息并退出
-    print_usage
+declare -A default_flags=(
+  ["--verbose"]=false
+  ["--install_ros2"]=false
+  ["--download_gz_models"]=false
+  ["--enable_mppi_fix"]=false
+  ["--enable_rmf"]=false
+  ["--enable_autodock"]=false
+  # ["--append_bashrc"]=false
+  ["--force"]=false
+)
+VERBOSE=$(parse_flag "verbose")
+ROS2_DEV=$(parse_flag "install_ros2")
+DOWNLOAD_GZ=$(parse_flag "download_gz_models")
+MPPI=$(parse_flag "enable_mppi_fix")
+RMF=$(parse_flag "enable_rmf")
+DOCK=$(parse_flag "enable_autodock")
+FORCE=$(parse_flag "force")
+# APPENDBASHRC=$(parse_flag "append_bashrc")
+
+# UBUNTU_CODENAME=${parsed_args["ubuntu_codename"]-focal}
+# ROSDISTRO=${parsed_args["rosdistro"]-galactic}
+WORKSPACE=${parsed_args["workspace"]-ros2_ws}
+TOKEN=${parsed_args["token"]-}
+ROS_INSTALL_TYPE=${parsed_args["ros_install_type"]:-desktop}
+
+platform=$(uname)
+if [[ $platform == "Darwin" ]]; then
+  # macOS
+  echo "No Ubuntu version detected"
+  exit 1
+else
+  # 假定為 Linux/Ubuntu
+  UBUNTU_CODENAME=$(grep VERSION_CODENAME /etc/os-release | cut -d"=" -f2)
+  if [[ "$UBUNTU_CODENAME" == "focal" ]]; then
+    # echo "Ubuntu 20.04 detected. Set ROSDISTRO to galactic."
+    ROSDISTRO="galactic"
+  elif [[ "$UBUNTU_CODENAME" == "jammy" ]]; then
+    # echo "Ubuntu 22.04 detected. Set ROSDISTRO to humble."
+    ROSDISTRO="humble"
+  elif [[ "$UBUNTU_CODENAME" == "noble" ]]; then
+    # echo "Ubuntu 24.04 detected. Set ROSDISTRO to jazzy."
+    ROSDISTRO="jazzy"
+  else
+    if [ -z "$UBUNTU_CODENAME" ]; then
+      echo "Ubuntu $UBUNTU_CODENAME is not supported"
+    else
+      echo "No Ubuntu version detected"
+    fi
     exit 1
   fi
+fi
 
-  # 将解析后的命令行参数存储到相应的变量中
-  eval set -- "$PARSED"
-  while true; do
-    case "$1" in
-      -u|--UBUNTU_CODENAME)
-        UBUNTU_CODENAME="${2#*=}"
-        shift 2
-        ;;
-      -r|--ROS_DISTRO)
-        ROS_DISTRO="${2#*=}"
-        shift 2
-        ;;
-      -i|--ROS_INSTALL_TYPE)
-        ROS_INSTALL_TYPE="${2#*=}"
-        shift 2
-        ;;
-      -w|--WORKSPACE)
-        WORKSPACE="${2#*=}"
-        shift 2
-        ;;
-      -a|--APPEND_SOURCE_SCRIPT_TO_BASHRC)
-        APPEND_SOURCE_SCRIPT_TO_BASHRC=true
-        shift
-        ;;
-      -h|--help)
-        print_usage
-        exit 0
-        ;;
-      --)
-        shift
-        break
-        ;;
-      *)
-        echo "Unknown option: $1"
-        exit 1
-        ;;
-    esac
-  done
+export UBUNTU_CODENAME ROSDISTRO WORKSPACE TOKEN
 
-  # 处理短选项 + 空格的情况
-  while [[ $# -gt 0 ]]; do
-    case "$1" in
-      -r|--ROS_DISTRO)
-        ROS_DISTRO="$2"
-        shift 2
-        ;;
-      *)
-        echo "Unknown argument: $1"
-        exit 1
-        ;;
-    esac
-  done
-
-  # 设置默认参数值
-  # UBUNTU_CODENAME="${UBUNTU_CODENAME:-focal}"
-  UBUNTU_CODENAME="${UBUNTU_CODENAME:-jammy}"
-  # ROS_DISTRO="${ROS_DISTRO:-galactic}"
-  ROS_DISTRO="${ROS_DISTRO:-humble}"
-  ROS_INSTALL_TYPE="${ROS_INSTALL_TYPE:-desktop}"
-  WORKSPACE="${WORKSPACE:-ros2_ws}"
-  APPEND_SOURCE_SCRIPT_TO_BASHRC="${APPEND_SOURCE_SCRIPT_TO_BASHRC:-false}"
+print_args() {
+  echo ===============================
+  echo "UBUNTU_CODENAME: $UBUNTU_CODENAME"
+  echo "ROSDISTRO: $ROSDISTRO"
+  echo "WORKSPACE: $WORKSPACE"
+  echo "ROS_INSTALL_TYPE: $ROS_INSTALL_TYPE"
+  echo "ROS2_DEV: $ROS2_DEV"
+  echo "DOWNLOAD_GZ: $DOWNLOAD_GZ"
+  echo "MPPI: $MPPI"
+  echo "RMF: $RMF"
+  echo "FORCE: $FORCE"
+  # echo "APPENDBASHRC: $APPENDBASHRC"
+  echo "TOKEN: $TOKEN"
+  echo "VERBOSE: $VERBOSE"
 }
+
+# if [ "$VERBOSE" == true ]; then
+#   print_args
+# fi

@@ -1,0 +1,17 @@
+repositories:
+  apriltag:
+    type: git
+    url: https://github.com/AprilRobotics/apriltag
+    version: master
+  apriltag_ros:
+    type: git
+    url: https://github.com/zealzel/apriltag_ros
+    version: foxy-devel
+  my_autodock:
+    type: git
+    url: https://github.com/zealzel/my_autodock
+    version: master
+  opennav_docking:
+    type: git
+    url: https://github.com/fitfabsw/opennav_docking
+    version: humble

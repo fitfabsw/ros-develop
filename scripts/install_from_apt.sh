@@ -33,5 +33,5 @@ echo ====================================================================
 "$install_ros_package_sh" "$ROS_DISTRO" "${ros_packages[@]}"
 
 # copy cyclonedds config file
-cp "cyclonedds.xml" $HOME/cyclonedds.xml
-append_bashrc 'export CYCLONEDDS_URI=$HOME/cyclonedds.xml'
+# cp "cyclonedds.xml" $HOME/cyclonedds.xml
+# append_bashrc 'export CYCLONEDDS_URI=$HOME/cyclonedds.xml'
