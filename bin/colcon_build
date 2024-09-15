@@ -195,6 +195,7 @@ if [ "$GIT_CLONE" == true ]; then
 		vcs import src <"$VCS_REPOS.token"
 	fi
 fi
+rm "$VCS_REPOS.token"
 
 if [ "$ROSDEP_INSTALL" == true ]; then
 	echo "# rosdep install dependencies"
