@@ -126,40 +126,6 @@ echo "SYMLINK_INSTALL: $SYMLINK_INSTALL"
 echo "EXPORT_COMPILE_COMMANDS: $EXPORT_COMPILE_COMMANDS"
 echo "IGNORES: $IGNORES"
 
-packages_to_install=$(extract_package "$WORKSPACEPATH" "${REPO_NAMES[@]}")
-packages_to_install_path=$(extract_package_path "$WORKSPACEPATH" "${REPO_NAMES[@]}")
-
-# echo "packages_to_install:"
-# for package in $packages_to_install; do
-# 	echo "  $package"
-# done
-# echo "packages_to_install_path:"
-# for package_path in $packages_to_install_path; do
-# 	echo "  $package_path"
-# done
-
-packages_to_install_remove_ignores=$packages_to_install
-for to_ignore in $IGNORES; do
-	packages_to_install_remove_ignores=$(echo "$packages_to_install_remove_ignores" | sed "s/$to_ignore//g")
-done
-echo "packages_to_install_remove_ignores: "
-packages_to_install_remove_ignores=$(echo "$packages_to_install_remove_ignores" | tr -s " " | sed 's/^ *//;s/ *$//')
-echo "$packages_to_install_remove_ignores"
-
-packages_to_install_path_remove_ignores=""
-ignore_array=($IGNORES)
-for path in $packages_to_install_path; do
-	package=$(basename "$path")
-	if [[ ! " ${ignore_array[@]} " =~ " ${package} " ]]; then
-		packages_to_install_path_remove_ignores+="$path "
-	fi
-done
-
-echo "packages_to_install_path_remove_ignores"
-for each in $packages_to_install_path_remove_ignores; do
-	echo "  $each"
-done
-
 echo "# Create workspace if nessesary"
 # "$(realpath "$script_dir"/../scripts/create_workspace.sh)" "$WORKSPACE" || exit_code=$?
 $create_workspace_sh "$WORKSPACE" || exit_code=$?
@@ -196,6 +162,41 @@ if [ "$GIT_CLONE" == true ]; then
 	fi
 fi
 rm "$VCS_REPOS.token"
+
+packages_to_install=$(extract_package "$WORKSPACEPATH" "${REPO_NAMES[@]}")
+packages_to_install_path=$(extract_package_path "$WORKSPACEPATH" "${REPO_NAMES[@]}")
+
+echo "packages_to_install:"
+for package in $packages_to_install; do
+	echo "  $package"
+done
+echo "packages_to_install_path:"
+for package_path in $packages_to_install_path; do
+	echo "  $package_path"
+done
+
+packages_to_install_remove_ignores=$packages_to_install
+for to_ignore in $IGNORES; do
+	packages_to_install_remove_ignores=$(echo "$packages_to_install_remove_ignores" | sed "s/$to_ignore//g")
+done
+echo "packages_to_install_remove_ignores: "
+packages_to_install_remove_ignores=$(echo "$packages_to_install_remove_ignores" | tr -s " " | sed 's/^ *//;s/ *$//')
+echo "$packages_to_install_remove_ignores"
+
+packages_to_install_path_remove_ignores=""
+ignore_array=($IGNORES)
+for path in $packages_to_install_path; do
+	package=$(basename "$path")
+	if [[ ! " ${ignore_array[@]} " =~ " ${package} " ]]; then
+		packages_to_install_path_remove_ignores+="$path "
+	fi
+done
+
+echo "packages_to_install_path_remove_ignores"
+for each in $packages_to_install_path_remove_ignores; do
+	echo "  $each"
+done
+# exit
 
 if [ "$ROSDEP_INSTALL" == true ]; then
 	echo "# rosdep install dependencies"

@@ -1,0 +1,21 @@
+repositories:
+  articubot_one:
+    type: git
+    url: https://github.com/fitfabsw/articubot_one.git
+    version: humble_multi
+  gazebo_ros2_control:
+    type: git
+    url: https://github.com/fitfabsw/gazebo_ros2_control.git
+    version: humble
+  fitrobot_interfaces:
+    type: git
+    url: https://github.com/fitfabsw/fitrobot_interfaces
+    version: humble_multi
+  fitrobot:
+    type: git
+    url: https://github.com/fitfabsw/fitrobot
+    version: humble_multi
+  rosboard:
+    type: git
+    url: https://github.com/fitfabsw/rosboard
+    version: fitrobot

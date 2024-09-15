@@ -1,3 +1,9 @@
+2024/9/15 23:20
+refactor: change colcon_build logic
+ - change colcon_build logic: git clone repos before extract_package
+ - add zbot_artic_humble_multi.repos & zbot_lino_humble_multi.repos
+ - use humble_multi repos in colcon_build_examples.sh
+
 2024/9/15 16:20
 refactor: move setup_vm/colcon_build.sh to bin/colcon_build
  - setup_vm/setup_simulations.sh is tested
