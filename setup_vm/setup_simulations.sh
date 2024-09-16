@@ -8,11 +8,11 @@ WORKSPACE=${parsed_args["workspace"]-simulations}
 WORKSPACEPATH="$HOME/$WORKSPACE"
 
 if [[ "$UBUNTU_CODENAME" == "focal" ]]; then
-	echo "Ubuntu 20.04 detected. Set ROSDISTRO to galactic."
+  echo "Ubuntu 20.04 detected. Set ROSDISTRO to galactic."
 elif [[ "$UBUNTU_CODENAME" == "jammy" ]]; then
-	echo "Ubuntu 22.04 detected. Set ROSDISTRO to humble."
+  echo "Ubuntu 22.04 detected. Set ROSDISTRO to humble."
 elif [[ "$UBUNTU_CODENAME" == "noble" ]]; then
-	echo "Ubuntu 24.04 detected. Set ROSDISTRO to jazzy."
+  echo "Ubuntu 24.04 detected. Set ROSDISTRO to jazzy."
 fi
 
 echo "ROSDISTRO: $ROSDISTRO"
@@ -24,29 +24,34 @@ echo Prepare workspace
 echo ===============================================
 "$(realpath "$script_dir"/../scripts/create_workspace.sh)" "$WORKSPACE" || exit_code=$?
 if [[ $exit_code -ne 0 ]]; then
-	exit
+  exit
 fi
 
 if [ "$ROS2_DEV" == true ]; then
-	echo ===============================================
-	echo Prepare ROS2 development environment
-	echo ===============================================
-	"$(realpath "$script_dir"/../ros2/scripts/prepare_ros2_workspace.sh)" -w "$WORKSPACE"
-	source /opt/ros/${ROSDISTRO}/setup.bash >/dev/null 2>&1 || exit_code=$?
-	if [[ $exit_code -ne 0 ]]; then
-		echo "/opt/ros/$ROSDISTRO/setup.sh does not exist."
-		print_usage
-		exit
-	fi
+  echo ===============================================
+  echo Prepare ROS2 development environment
+  echo ===============================================
+  "$(realpath "$script_dir"/../ros2/scripts/prepare_ros2_workspace.sh)" -w "$WORKSPACE"
+  source /opt/ros/${ROSDISTRO}/setup.bash >/dev/null 2>&1 || exit_code=$?
+  if [[ $exit_code -ne 0 ]]; then
+    echo "/opt/ros/$ROSDISTRO/setup.sh does not exist."
+    print_usage
+    exit
+  fi
+fi
+
+if [ -z $ROS_DISTRO ]; then
+  echo "ROS_DISTRO is not set. Please set ROS_DISTRO to the ROS distro you want to use."
+  exit
 fi
 
 [ "$MPPI" == true ] && "$(realpath "$script_dir"/../ros2/scripts/install_mppi_controllers.sh)" -w "$WORKSPACE"
 
 if [ "$DOWNLOAD_GZ" == true ]; then
-	echo ===============================================
-	echo Download gazebo classic models
-	echo ===============================================
-	"$(realpath "$script_dir"/download_gazebo_models.sh)"
+  echo ===============================================
+  echo Download gazebo classic models
+  echo ===============================================
+  "$(realpath "$script_dir"/download_gazebo_models.sh)"
 fi
 
 echo ===============================================

@@ -1,0 +1,21 @@
+repositories:
+  zbot_lino:
+    type: git
+    url: https://github.com/fitfabsw/zbot_lino
+    version: jazzy_multi
+  fitrobot_interfaces:
+    type: git
+    url: https://github.com/fitfabsw/fitrobot_interfaces
+    version: humble_multi
+  fitrobot:
+    type: git
+    url: https://github.com/fitfabsw/fitrobot
+    version: humble_multi
+  fitrobotcpp:
+    type: git
+    url: https://github.com/fitfabsw/fitrobotcpp
+    version: humble_multi
+  rosboard:
+    type: git
+    url: https://github.com/fitfabsw/rosboard
+    version: fitrobot
