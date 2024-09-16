@@ -20,7 +20,7 @@ fi
 
 echo -e "\n=========colcon build lino2=============="
 source "$WORKSPACEPATH/install/setup.bash"
-REPOS_LINO2="$script_dir/zbot_lino_$ROSDISTRO.repos"
+REPOS_LINO2="$script_dir/zbot_lino_"$ROSDISTRO"_multi.repos"
 IGNORE_LINO2="linorobot2_bringup,linorobot2_gazebo,fitrobot_interfaces"
 #
 cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_LINO2" -cdf ${TOKEN:+-t$TOKEN}"
@@ -34,8 +34,7 @@ cmd="colcon build --packages-select linorobot2_gazebo fitrobot_interfaces --cmak
 echo "$cmd"
 eval "$cmd"
 #
-# REPOS_LINO2="$script_dir/zbot_lino_$ROSDISTRO.repos"
 echo "# build the rest repos that ues colcon build --symlink-install"
-cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_LINO2" -bs --CLEAN_CACHE -i $IGNORE_LINO2 ${TOKEN:+-t$TOKEN}"
+cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_LINO2" -bs --CLEAN_CACHE -i $IGNORE_LINO2"
 echo "$cmd"
 eval "$cmd"

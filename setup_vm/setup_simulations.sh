@@ -58,8 +58,8 @@ echo ===============================================
 echo 2. Build/Install robots/worlds from source
 echo ===============================================
 "$script_dir"/apriltag/setup_apriltag.sh -w "$WORKSPACE" "${TOKEN:+-t$TOKEN}" "$([ "$FORCE" == true ] && echo "-f")"
-"$script_dir"/simulations_zbot_lino/setup_zbot_lino.sh -w "$WORKSPACE" "${TOKEN:+-t$TOKEN}" "$([ "$FORCE" == true ] && echo "-f")"
-"$script_dir"/simulations_zbot_artic/setup_zbot_artic.sh -w "$WORKSPACE" "${TOKEN:+-t$TOKEN}" "$([ "$FORCE" == true ] && echo "-f")"
+"$script_dir"/simulations_zbot_lino/setup_zbot_lino_multi.sh -w "$WORKSPACE" "${TOKEN:+-t$TOKEN}" "$([ "$FORCE" == true ] && echo "-f")"
+"$script_dir"/simulations_zbot_artic/setup_zbot_artic_multi.sh -w "$WORKSPACE" "${TOKEN:+-t$TOKEN}" "$([ "$FORCE" == true ] && echo "-f")"
 
 echo ===============================================
 echo 3. Build/Install robots by customed scripts
