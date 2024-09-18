@@ -1,24 +1,20 @@
 repositories:
-  micro_ros_setup:
-    type: git
-    url: https://github.com/micro-ROS/micro_ros_setup
-    version: humble
   zbot_lino:
     type: git
-    url: https://github.com/zealzel/zbot_lino
-    version: humble
+    url: https://github.com/fitfabsw/zbot_lino
+    version: humble-multi
   fitrobot_interfaces:
     type: git
     url: https://github.com/fitfabsw/fitrobot_interfaces
-    version: main
+    version: humble_multi
   fitrobot:
     type: git
     url: https://github.com/fitfabsw/fitrobot
-    version: dev
+    version: humble_multi
   fitrobotcpp:
     type: git
     url: https://github.com/fitfabsw/fitrobotcpp
-    version: main
+    version: humble_multi
   sick_safetyscanners_base:
     type: git
     url: https://github.com/SICKAG/sick_safetyscanners_base
@@ -31,3 +27,11 @@ repositories:
     type: git
     url: https://github.com/SICKAG/sick_safetyscanners2
     version: master
+  realsense-ros:
+    type: git
+    url: https://github.com/fitfabsw/realsense-ros
+    version: fitrobot
+  rosboard:
+    type: git
+    url: https://github.com/fitfabsw/rosboard.git
+    version: fitrobot
