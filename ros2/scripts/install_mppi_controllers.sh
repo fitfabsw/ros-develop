@@ -5,9 +5,11 @@ source "$(readlink -f "$script_dir/../../scripts/argparse_ros.sh")"
 # LATEST_WORKED_COMMIT="1.1.12"
 #a45b151ceb3aa9edebad8a528cd672935f0c668d
 # LATEST_WORKED_COMMIT="a45b151c" # 2024/3/3
-LATEST_WORKED_COMMIT="1.1.15" # 2024/7/30
+LATEST_WORKED_COMMIT="1.1.16" # 2024/9/18
+# LATEST_WORKED_COMMIT="1.1.15" # 2024/7/30
 # LATEST_WORKED_COMMIT="3ed4c2df" # including BIG improvements in MPPI !! must have !!!
 
+WORKSPACEPATH="$HOME/$WORKSPACE"
 echo "ROSDISTRO=$ROSDISTRO"
 echo "WORKSPACE=$WORKSPACE"
 echo "LATEST_WORKED_COMMIT=$LATEST_WORKED_COMMIT"
@@ -53,20 +55,16 @@ if [[ $ROSDISTRO == "humble" ]]; then
   echo "1. remove the mppi_controllers binary package"
   sudo apt remove ros-$ROSDISTRO-nav2-mppi-controller -y
   #
-  #
   echo "2. copy the nav2_mppi_controller source from navigation2 repo into workspace"
   rm -rf /tmp/navigation2 >/dev/null 2>&1
   git clone https://github.com/ros-planning/navigation2 /tmp/navigation2 -b "$ROSDISTRO"
   cd /tmp/navigation2 && git checkout $LATEST_WORKED_COMMIT
-  cp -R /tmp/navigation2/nav2_mppi_controller "$HOME/$WORKSPACE/src"
-  # cp -R /tmp/navigation2/nav2_amcl "$HOME/$WORKSPACE/src"
-  # cp -R /tmp/navigation2/nav2_behavior_tree "$HOME/$WORKSPACE/src"
+  cp -R /tmp/navigation2/nav2_mppi_controller "$WORKSPACEPATH/src"
 
   echo "3. colcon build the nav2_mppi_controller package"
   cd "$HOME/$WORKSPACE"
-  rm -rf src/nav2_mppi_controller build/nav2_mppi_controller install/nav2_mppi_controller >/dev/null 2>&1
+  rm -rf build/nav2_mppi_controller install/nav2_mppi_controller >/dev/null 2>&1
   colcon build --symlink-install --packages-select nav2_mppi_controller
-  # colcon build --symlink-install --packages-select nav2_mppi_controller nav2_amcl
   #
   echo "4. re-install ros-humble-nav2-bringup"
   sudo apt install ros-$ROSDISTRO-nav2-bringup -y
