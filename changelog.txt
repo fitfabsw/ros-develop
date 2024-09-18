@@ -1,3 +1,8 @@
+2024/9/18 15:00
+refactor: modify zbot_lino2.sh to zbot_lino2_humble_multi.sh
+ - add lost micro_ros_setup dependency in zbot_lino2_humble_multi.repos
+ - replace original stage4,5,6,7 with stagelino2 using new colcon_build binary
+
 2024/9/15 23:20
 refactor: change colcon_build logic
  - change colcon_build logic: git clone repos before extract_package
@@ -10,5 +15,5 @@ refactor: move setup_vm/colcon_build.sh to bin/colcon_build
  - setup_vm/colcon_build_examples.sh is tested
 
 2024/9/15 00:20
-refactor: add colcon_build.sh to ease the separate build process 
+refactor: add colcon_build.sh to ease the separate build process
  - add setup_examples.sh which is similar to setup_simulations.sh
