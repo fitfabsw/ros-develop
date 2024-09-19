@@ -1,3 +1,6 @@
+2024/9/19 11:25
+feat: ignore finding package.xml in hidden directories
+
 2024/9/18 15:30
 fix: bug in install_mppi_controllers.sh
  - accidentally rm src/nav2_mppi_controller in script -> fixed
