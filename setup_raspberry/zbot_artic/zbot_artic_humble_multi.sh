@@ -70,8 +70,8 @@ echo Build/Install robots packages from source
 echo ===============================================
 # source "/opt/ros/${ROS_DISTRO}/setup.bash" && ../../scripts/install_from_source.sh -w $WORKSPACE -v "$script_dir/zbot_artic_$ROS_DISTRO.repos"
 REPOS_ARTIC="$script_dir/zbot_artic_"$ROS_DISTRO"_multi.repos"
-IGNORE_ARTIC="linorobot2_gazebo"
-cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_ARTIC" -cdfbs --CLEAN_CACHE -i $IGNORE_ARTIC"
+IGNORE_ARTIC="gazebo_ros2_control_demos,gazebo_ros2_control"
+cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_ARTIC" -cdfbs --CLEAN_CACHE ${TOKEN:+-t$TOKEN} -i $IGNORE_ARTIC"
 echo "$cmd" && eval "$cmd"
 
 echo ======== Env Variables ========
