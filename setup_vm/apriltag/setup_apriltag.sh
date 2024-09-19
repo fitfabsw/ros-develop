@@ -15,7 +15,7 @@ echo -e "\n=========setup apriltag=============="
 source "$WORKSPACEPATH/install/setup.bash"
 REPOS_APRIL="$script_dir/apriltag.repos"
 IGNORE_APRIL="nova_carter_docking,my_autodock"
-cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_APRIL" -cdf ${TOKEN:+-t$TOKEN}"
+cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_APRIL" -i $IGNORE_APRIL -cdf ${TOKEN:+-t$TOKEN}"
 echo "$cmd"
 eval "$cmd"
 #
@@ -23,6 +23,6 @@ cd "$WORKSPACEPATH/src/apriltag" || exit # install apriltag
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 sudo cmake --build build --target install
 #
-cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_APRIL" -b --CLEAN_CACHE -i $IGNORE_APRIL -t $TOKEN"
+cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_APRIL" -b --CLEAN_CACHE -i $IGNORE_APRIL"
 echo "$cmd"
 eval "$cmd"
