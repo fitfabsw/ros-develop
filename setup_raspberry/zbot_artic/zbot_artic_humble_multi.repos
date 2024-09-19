@@ -1,0 +1,33 @@
+repositories:
+  serial:
+    type: git
+    url: https://github.com/joshnewans/serial
+    version: newans_ros2
+  diffdrive_arduino:
+    type: git
+    url: https://github.com/fitfabsw/diffdrive_arduino
+    version: 3883
+  articubot_one:
+    type: git
+    url: https://github.com/fitfabsw/articubot_one.git
+    version: humble_multi
+  fitrobot_interfaces:
+    type: git
+    url: https://github.com/fitfabsw/fitrobot_interfaces
+    version: humble_multi
+  fitrobot:
+    type: git
+    url: https://github.com/fitfabsw/fitrobot
+    version: humble_multi
+  rosboard:
+    type: git
+    url: https://github.com/fitfabsw/rosboard.git
+    version: fitrobot
+  ros2_v4l2_camera:
+    type: git
+    url: https://github.com/tier4/ros2_v4l2_camera.git
+    version: galactic
+  gazebo_ros2_control:
+    type: git
+    url: https://github.com/fitfabsw/gazebo_ros2_control.git
+    version: humble
