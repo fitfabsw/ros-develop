@@ -37,6 +37,7 @@ eval "$cmd"
 #
 IGNORE_LINO2="linorobot2_bringup,linorobot2_gazebo,fitrobot_interfaces"
 echo "# build the rest repos that ues colcon build --symlink-install"
+source "$WORKSPACEPATH/install/setup.bash"
 cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_LINO2" -bs --CLEAN_CACHE -i $IGNORE_LINO2"
 echo "$cmd"
 eval "$cmd"
