@@ -69,19 +69,25 @@ if [[ "$ROS_DISTRO" == "" || "$ROS_DISTRO" == "<unknown>" ]]; then
   exit 1
 fi
 
-stagelino2_description="stage for lino2 download/build"
-stagelino2() {
+stage_central_description="stage for central download/build"
+stage_central() {
   REPOS_CENTRAL="$script_dir/central.repos"
   cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_CENTRAL" -cdf ${TOKEN:+-t$TOKEN}"
   echo "$cmd" && eval "$cmd"
   #
+  PACKAGES_LINO2_NO_SYMLINK="fitrobot_interfaces"
+  cd $WORKSPACEPATH
+  cmd="colcon build --packages-select $PACKAGES_LINO2_NO_SYMLINK --cmake-clean-cache"
+  echo "$cmd" && eval "$cmd"
+  #
   source "$WORKSPACEPATH"/install/setup.bash
+  IGNORE_CENTRAL="linorobot2_gazebo,micro_ros_setup,uros"
   echo "# build the rest repos that ues colcon build --symlink-install"
-  cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_CENTRAL" -bs --CLEAN_CACHE"
+  cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_LINO2" -bs --CLEAN_CACHE -i $IGNORE_CENTRAL"
   echo "$cmd" && eval "$cmd"
 }
 
-stage_general "$stagelino2_description" stagelino2
+stage_general "$stage_central_description" stage_central
 
 echo "===================================================================="
 echo "Setup environment variables                                         "
@@ -89,16 +95,16 @@ echo "===================================================================="
 append_bashrc "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp"
 append_bashrc "source ${WORKSPACEPATH}/install/setup.bash"
 
-echo
-echo "===================================================================="
-echo "setup systemd services                                              "
-echo "===================================================================="
-sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot.lino.service" /etc/systemd/system
-sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot_lino.bringup.service" /etc/systemd/system
-sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot_lino.status.service" /etc/systemd/system
-sudo systemctl enable fitrobot.lino.service
-sudo systemctl enable fitrobot_lino.bringup.service
-sudo systemctl enable fitrobot_lino.status.service
+# echo
+# echo "===================================================================="
+# echo "setup systemd services                                              "
+# echo "===================================================================="
+# sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot.lino.service" /etc/systemd/system
+# sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot_lino.bringup.service" /etc/systemd/system
+# sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot_lino.status.service" /etc/systemd/system
+# sudo systemctl enable fitrobot.lino.service
+# sudo systemctl enable fitrobot_lino.bringup.service
+# sudo systemctl enable fitrobot_lino.status.service
 
 print_elapsed_summary
 
