@@ -1,0 +1,8 @@
+<CycloneDDS>
+  <Domain>
+    <General>
+      <NetworkInterfaceAddress>wlxbcec43446b2b,eth0,enx7cc2c64a19b7</NetworkInterfaceAddress>
+      <DontRoute>true</DontRoute>
+    </General>
+  </Domain>
+</CycloneDDS>

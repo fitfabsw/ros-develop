@@ -1,0 +1,22 @@
+network:
+  version: 2
+  wifis:
+    wlan0:
+      access-points:
+        iPhone:
+          password: "03211111"
+      dhcp4: true
+      optional: true
+  ethernets:
+    eth0:
+      dhcp4: false
+      addresses: [192.168.1.3/24]
+      routes:
+        - to: 192.168.1.2/32
+          via: 192.168.1.3
+    enx7cc2c64a19b7:
+      dhcp4: false
+      addresses: [192.168.1.12/24]
+      routes:
+        - to: 192.168.1.4/32
+          via: 192.168.1.12
