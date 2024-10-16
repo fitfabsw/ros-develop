@@ -44,7 +44,7 @@ log_and_echo() {
 
   # Common setup for all supported Ubuntu versions
   echo "Setting up for ROS Distro: $ROS_DISTRO"
-  # WORKSPACE="zbotlino_ws"
+  WORKSPACE="lino2_ws" # set default workspace
   WORKSPACEPATH="$HOME/$WORKSPACE"
   disable_needrestart # Workaround for the needrestart issue
 
@@ -150,7 +150,7 @@ log_and_echo() {
     echo "$cmd" && eval "$cmd"
     #
     source "$WORKSPACEPATH"/install/setup.bash
-    IGNORE_LINO2="linorobot2_gazebo,micro_ros_setup,uros"
+    IGNORE_LINO2="linorobot2_gazebo,micro_ros_setup,uros,fitrobot_interfaces"
     echo "# build the rest repos that ues colcon build --symlink-install"
     cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_LINO2" -bs --CLEAN_CACHE -i $IGNORE_LINO2"
     echo "$cmd" && eval "$cmd"
