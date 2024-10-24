@@ -83,7 +83,7 @@ stage_central() {
   source "$WORKSPACEPATH"/install/setup.bash
   IGNORE_CENTRAL="linorobot2_gazebo,micro_ros_setup,uros"
   echo "# build the rest repos that ues colcon build --symlink-install"
-  cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_LINO2" -bs --CLEAN_CACHE -i $IGNORE_CENTRAL"
+  cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_CENTRAL" -bs --CLEAN_CACHE -i $IGNORE_CENTRAL"
   echo "$cmd" && eval "$cmd"
 }
 
