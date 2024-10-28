@@ -68,10 +68,21 @@ echo
 echo ===============================================
 echo Build/Install robots packages from source
 echo ===============================================
-# source "/opt/ros/${ROS_DISTRO}/setup.bash" && ../../scripts/install_from_source.sh -w $WORKSPACE -v "$script_dir/zbot_artic_$ROS_DISTRO.repos"
+WORKSPACEPATH="$HOME/$WORKSPACE"
 REPOS_ARTIC="$script_dir/zbot_artic_"$ROS_DISTRO"_multi.repos"
+#
 IGNORE_ARTIC="gazebo_ros2_control_demos,gazebo_ros2_control"
-cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_ARTIC" -cdfbs --CLEAN_CACHE ${TOKEN:+-t$TOKEN} -i $IGNORE_ARTIC"
+cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_ARTIC" -cdf ${TOKEN:+-t$TOKEN} -i $IGNORE_ARTIC"
+echo "$cmd" && eval "$cmd"
+#
+PACKAGES_ARTIC_NO_SYMLINK="fitrobot_interfaces"
+cd $WORKSPACEPATH
+cmd="colcon build --packages-select $PACKAGES_ARTIC_NO_SYMLINK --cmake-clean-cache"
+echo "$cmd" && eval "$cmd"
+#
+source "$WORKSPACEPATH"/install/setup.bash
+IGNORE_ARTIC="gazebo_ros2_control_demos,gazebo_ros2_control,fitrobot_interfaces"
+cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_ARTIC" -bs --CLEAN_CACHE -i $IGNORE_ARTIC"
 echo "$cmd" && eval "$cmd"
 
 echo ======== Env Variables ========
@@ -81,7 +92,6 @@ echo
 echo "Do you want to add sourcing of $WORKSPACE on your ~/.bashrc?"
 echo -n "Yes [y] or No [n]: "
 read reply
-WORKSPACEPATH="$HOME/$WORKSPACE"
 if [[ "$reply" == "y" || "$reply" == "Y" ]]; then
   append_bashrc "source ${WORKSPACEPATH}/install/setup.bash"
 else
