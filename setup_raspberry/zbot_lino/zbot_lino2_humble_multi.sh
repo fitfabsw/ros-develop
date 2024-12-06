@@ -208,12 +208,10 @@ log_and_echo() {
   echo "===================================================================="
   echo "setup systemd services                                              "
   echo "===================================================================="
-  sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot.lino.service" /etc/systemd/system
-  sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot_lino.bringup.service" /etc/systemd/system
-  sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot_lino.status.service" /etc/systemd/system
-  sudo systemctl enable fitrobot.lino.service
-  sudo systemctl enable fitrobot_lino.bringup.service
-  sudo systemctl enable fitrobot_lino.status.service
+  sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot.bringup.service" /etc/systemd/system
+  sudo cp "$WORKSPACEPATH/src/fitrobot/systemd/fitrobot.master.service" /etc/systemd/system
+  sudo systemctl enable fitrobot.bringup.service
+  sudo systemctl enable fitrobot.master.service
 
   print_elapsed_summary
 
