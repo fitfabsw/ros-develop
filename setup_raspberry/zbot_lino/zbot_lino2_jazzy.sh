@@ -32,7 +32,7 @@ log_and_echo() {
     ROS_DISTRO="iron"
     ORIGINAL_IMAGE="Raspberry Pi OS 64-bit"
     ;;
-  Noble)
+  noble)
     ROS_DISTRO="jazzy"
     ORIGINAL_IMAGE=""
     ;;
