@@ -133,7 +133,7 @@ log_and_echo() {
 
   stagelino2_description="stage for lino2 download/build"
   stagelino2() {
-    REPOS_LINO2="$script_dir/zbot_linov2_"$ROS_DISTRO"_multi.repos"
+    REPOS_LINO2="$script_dir/zbot_lino2_"$ROS_DISTRO".repos"
     #
     IGNORE_LINO2="linorobot2_gazebo"
     cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_LINO2" -cdf ${TOKEN:+-t$TOKEN} -i $IGNORE_LINO2"

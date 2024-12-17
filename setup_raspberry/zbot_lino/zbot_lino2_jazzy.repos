@@ -1,0 +1,37 @@
+repositories:
+  zbot_lino:
+    type: git
+    url: https://github.com/fitfabsw/zbot_lino
+    version: jazzy_multi
+  fitrobot_interfaces:
+    type: git
+    url: https://github.com/fitfabsw/fitrobot_interfaces
+    version: main
+  fitrobot:
+    type: git
+    url: https://github.com/fitfabsw/fitrobot
+    version: dev
+  fitrobotcpp:
+    type: git
+    url: https://github.com/fitfabsw/fitrobotcpp
+    version: main
+  sick_safetyscanners_base:
+    type: git
+    url: https://github.com/SICKAG/sick_safetyscanners_base
+    version: ros2
+  sick_safetyscanners2_interfaces:
+    type: git
+    url: https://github.com/SICKAG/sick_safetyscanners2_interfaces
+    version: master
+  sick_safetyscanners2:
+    type: git
+    url: https://github.com/SICKAG/sick_safetyscanners2
+    version: master
+  realsense-ros:
+    type: git
+    url: https://github.com/fitfabsw/realsense-ros
+    version: fitrobot
+  rosboard:
+    type: git
+    url: https://github.com/fitfabsw/rosboard.git
+    version: fitrobot
