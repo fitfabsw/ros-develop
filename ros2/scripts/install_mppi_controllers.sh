@@ -5,6 +5,7 @@ source "$(readlink -f "$script_dir/../../scripts/argparse_ros.sh")"
 # LATEST_WORKED_COMMIT="1.1.12"
 #a45b151ceb3aa9edebad8a528cd672935f0c668d
 # LATEST_WORKED_COMMIT="a45b151c" # 2024/3/3
+# LATEST_WORKED_COMMIT="e4ef813" # TODO: to be verified (added on 2025/2/18)
 LATEST_WORKED_COMMIT="1.1.16" # 2024/9/18
 # LATEST_WORKED_COMMIT="1.1.15" # 2024/7/30
 # LATEST_WORKED_COMMIT="3ed4c2df" # including BIG improvements in MPPI !! must have !!!
@@ -49,7 +50,7 @@ fi
 # ref: MPPI crashing on loading plug-ings #3767
 # https://github.com/ros-planning/navigation2/issues/3767
 
-if [[ $ROSDISTRO == "humble" ]]; then
+if [[ $ROSDISTRO =~ ^(humble|jazzy)$ ]]; then
   echo "Install mppi_controllers from source."
   #
   echo "1. remove the mppi_controllers binary package"
@@ -66,6 +67,6 @@ if [[ $ROSDISTRO == "humble" ]]; then
   rm -rf build/nav2_mppi_controller install/nav2_mppi_controller >/dev/null 2>&1
   colcon build --symlink-install --packages-select nav2_mppi_controller
   #
-  echo "4. re-install ros-humble-nav2-bringup"
+  echo "4. re-install ros-$ROSDISTRO-nav2-bringup"
   sudo apt install ros-$ROSDISTRO-nav2-bringup -y
 fi

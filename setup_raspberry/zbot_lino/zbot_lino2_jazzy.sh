@@ -160,6 +160,28 @@ log_and_echo() {
     echo "$cmd" && eval "$cmd"
   }
 
+  stage8_description="Use newest nav2 mppi_controllers"
+  stage8() {
+    $script_dir/../../ros2/scripts/install_mppi_controllers.sh -r "$ROS_DISTRO" -w "$WORKSPACE"
+    check_last_command || return 1
+    return 0
+  }
+
+  stage9_description="Setup audio"
+  stage9() {
+    $script_dir/setup_audio.sh
+    check_last_command || return 1
+    return 0
+  }
+
+  stage10_description="Setup network including additional wifi driver"
+  stage10() {
+    $script_dir/overclock.sh # for pi4
+    $script_dir/install_rtl88x2bu.sh
+    check_last_command || return 1
+    return 0
+  }
+
   stage_general "$stage1_description" stage1
 
   source /opt/ros/"$ROS_DISTRO"/setup.bash
@@ -170,7 +192,7 @@ log_and_echo() {
     exit 1
   fi
 
-  # stage_general "$stage2_description" stage2
+  stage_general "$stage2_description" stage2
   # stage_general "$stage3_description" stage3
   # stage_general "$stagelino2_description" stagelino2
   # stage_general "$stage8_description" stage8
