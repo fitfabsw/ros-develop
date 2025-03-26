@@ -131,8 +131,12 @@ log_and_echo() {
   stagelino2() {
     REPOS_LINO2="$script_dir/zbot_linov2_"$ROS_DISTRO"_multi.repos"
     #
+    if [[ -z "$TOKEN" ]]; then
+        echo "Error: Github token is missing, please append -t GITHUB_TOKEN to the script"
+        exit 1
+    fi
     IGNORE_LINO2="linorobot2_gazebo"
-    cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_LINO2" -cdf ${TOKEN:+-t$TOKEN} -i $IGNORE_LINO2"
+    cmd="$colcon_build_sh -w $WORKSPACE -r "$REPOS_LINO2" -cdf -t$TOKEN -i $IGNORE_LINO2"
     echo "$cmd" && eval "$cmd"
     #
     cd $WORKSPACEPATH
