@@ -6,7 +6,7 @@ repositories:
   zbot_lino:
     type: git
     url: https://github.com/fitfabsw/zbot_lino
-    version: humble-multi
+    version: jazzy_multi_real
   fitrobot_interfaces:
     type: git
     url: https://github.com/fitfabsw/fitrobot_interfaces
